@@ -13,8 +13,8 @@ O código abaixo vai gerar as tabelas do banco e também vai inserir os registro
 php artisan migrate:refresh --seed
 ```
 4. Abrir a pasta cotacao_api, localizar o arquivo **.env.example** e renomear para **.env**
-5. ### Rodar API
-6. Abrir a pasta cotacao_api e rodar o comando para atualizar as dependências
+### Rodar API
+5. Abrir a pasta cotacao_api e rodar o comando para atualizar as dependências
 ```sh
 composer update
 ```
