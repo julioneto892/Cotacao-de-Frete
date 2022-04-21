@@ -14,11 +14,11 @@ php artisan migrate:refresh --seed
 ```
 4. Abrir a pasta cotacao_api, localizar o arquivo **.env.example** e renomear para **.env**
 ### Rodar API
-5. Abrir a pasta cotacao_api e rodar o comando para atualizar as dependências
+1. Abrir a pasta cotacao_api e rodar o comando para atualizar as dependências
 ```sh
 composer update
 ```
-7. Iniciar a aplicação
+2. Iniciar a aplicação
 ```sh
 php artisan serve
 ```
