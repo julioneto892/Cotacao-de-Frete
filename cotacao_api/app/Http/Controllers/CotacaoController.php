@@ -59,7 +59,6 @@ class CotacaoController extends Controller
                 ]
             ], 500);
         }
-        // dd($dados['valor_pedido']);
         $arrayCotacao = array();
         // realizando o calculo da cotação
         foreach ($cotacoes as $cotacao) {
