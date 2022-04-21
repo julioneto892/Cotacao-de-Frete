@@ -61,11 +61,11 @@
                         <label for="uf">UF</label>
                     </div>
                     <div class="form-floating" id="div-percentual_cotacao">
-                        <input type="text" class="form-control" id="percentual_cotacao" name="percentual_cotacao" placeholder="Percentual cotação %" maxlength="6">
+                        <input type="text" class="form-control" id="percentual_cotacao" name="percentual_cotacao" placeholder="Percentual cotação %" maxlength="11">
                         <label for="percentual_cotacao">Percentual cotação %</label>
                     </div>
                     <div class="form-floating" id="div-valor_extra">
-                        <input type="text" class="form-control" id="valor_extra" name="valor_extra" placeholder="Valor extra (R$)" maxlength="6">
+                        <input type="text" class="form-control" id="valor_extra" name="valor_extra" placeholder="Valor extra (R$)" maxlength="11">
                         <label for="valor_extra">Valor extra (R$)</label>
                     </div>
                     <button class="w-100 btn btn-lg btn-primary" type="submit">Salvar</button>
@@ -167,12 +167,19 @@
                     var erros = JSON.parse(request.responseText);
                     $(".form-control").removeClass("is-invalid");
                     $(".invalid-feedback").remove();
-                    $.each(erros.errors, function(key, value) {
-                        $("#"+key).removeClass("is-invalid");
-                        $("#div-txt-validacao-"+key).remove();
-                        $("#"+key).addClass("is-invalid");
-                        $("#div-"+key).append(`<div id="div-txt-validacao-${key}" class="invalid-feedback">${value}</div>`);
-                    });
+                    if(erros.errors) {
+                        $.each(erros.errors, function(key, value) {
+                            $("#"+key).removeClass("is-invalid");
+                            $("#div-txt-validacao-"+key).remove();
+                            $("#"+key).addClass("is-invalid");
+                            $("#div-"+key).append(`<div id="div-txt-validacao-${key}" class="invalid-feedback">${value}</div>`);
+                        });
+                    } else {
+                        $("#cadastroCotacao").append(`<div id="msg-erro" style="text-align: center;padding-top: 11px;color: red;font-weight: bold;">${erros.message}</div>`);
+                        setTimeout(function() {
+                            $("#msg-erro").remove();
+                        }, 3000);
+                    }
                 }
             });
         });
@@ -186,6 +193,8 @@
                 data: $(this).serialize(),
                 dataType: "json",
                 success(data) {
+                    $(".form-control").removeClass("is-invalid");
+                    $(".invalid-feedback").remove();
                     var html = `
                         <h6 style="padding-top: 20px;">Melhores Resultados:</h6>
                         <table class="table">

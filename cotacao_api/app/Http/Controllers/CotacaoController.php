@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ValidarCotacaoRequest;
+use App\Http\Requests\ValidarFreteRequest;
 use App\Models\CotacaoFrete;
 use App\Models\Transportadora;
 use Exception;
-use Illuminate\Http\Client\ResponseSequence;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-
 class CotacaoController extends Controller
 {
     /**
@@ -47,17 +45,8 @@ class CotacaoController extends Controller
      * @param Request $request
      * @return void
      */
-    public function calcularImposto(Request $request) {
+    public function calcularImposto(ValidarFreteRequest $request) {
         $dados = $request->all();
-        if ($dados['valor_pedido'] == "" && $dados['uf'] == "") {
-            return response()->json([
-                'message' => 'Validação dos campos',
-                    'errors' => [
-                        'uf' => ['O campo UF é obrigatório.'],
-                        'valor_pedido' =>  ['O campo Valor pedido é obrigatório.']
-                    ]
-            ], 422);
-        }
         // lista dos cotações junto com a transportadora vinculada
         $cotacoes = CotacaoFrete::join('transportadora', 'cotacao_frete.transportadora_id', '=', 'transportadora.id')
                                 ->where(['cotacao_frete.uf' => $dados['uf']])
@@ -70,6 +59,7 @@ class CotacaoController extends Controller
                 ]
             ], 500);
         }
+        // dd($dados['valor_pedido']);
         $arrayCotacao = array();
         // realizando o calculo da cotação
         foreach ($cotacoes as $cotacao) {
